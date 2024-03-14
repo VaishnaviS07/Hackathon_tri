@@ -1,0 +1,17 @@
+# Based on the elbow curve, choose the optimal number of clusters and fit the k-means model
+k = 4  # Choose the optimal number of clusters
+kmeans = KMeans(n_clusters=k, init='k-means++', random_state=42)
+clusters = kmeans.fit_predict(X_scaled)
+
+# Add the cluster labels to the original dataset
+data['Cluster'] = clusters
+
+# Analyze the characteristics of each cluster
+cluster_centers = pd.DataFrame(scaler.inverse_transform(kmeans.cluster_centers_), columns=X_encoded.columns)
+print("Cluster Centers:")
+print(cluster_centers)
+
+# Explore the characteristics of each cluster
+for cluster_label in range(k):
+    print(f"\nCluster {cluster_label}:")
+    print(data[data['Cluster'] == cluster_label])
